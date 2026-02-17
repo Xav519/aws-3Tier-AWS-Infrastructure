@@ -17,11 +17,13 @@ resource "aws_security_group" "bastion" {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
+    // Utiliser security_groups pour autoriser uniquement le trafic SSH vers les EC2 des tiers Presentation et Logic
     security_groups = [aws_security_group.presentation_ec2.id, aws_security_group.logic_ec2.id]
   }
 
   tags = { Name = "${var.project_name}-bastion-sg" }
 }
+
 
 # External ALB SG
 resource "aws_security_group" "external_alb" {
@@ -30,6 +32,7 @@ resource "aws_security_group" "external_alb" {
   vpc_id      = var.vpc_id
 
   ingress {
+    // Autoriser HTTP depuis Internet
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -37,6 +40,7 @@ resource "aws_security_group" "external_alb" {
   }
 
   ingress {
+    // Autoriser HTTPS depuis Internet
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -44,6 +48,7 @@ resource "aws_security_group" "external_alb" {
   }
 
   egress {
+    // Autoriser tout le trafic sortant (ou restreindre vers les EC2 des tiers Presentation et Logic)
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -53,6 +58,7 @@ resource "aws_security_group" "external_alb" {
   tags = { Name = "${var.project_name}-external-alb-sg" }
 }
 
+
 # Tier 1 EC2 SG (Presentation)
 resource "aws_security_group" "presentation_ec2" {
   name        = "${var.project_name}-presentation-sg"
@@ -60,6 +66,7 @@ resource "aws_security_group" "presentation_ec2" {
   vpc_id      = var.vpc_id
 
   ingress {
+    // Autoriser HTTP depuis l'External ALB uniquement
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
@@ -67,6 +74,7 @@ resource "aws_security_group" "presentation_ec2" {
   }
 
   ingress {
+    // Autoriser HTTPS depuis l'External ALB uniquement
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
@@ -74,6 +82,7 @@ resource "aws_security_group" "presentation_ec2" {
   }
 
   ingress {
+    // Autoriser SSH depuis le Bastion Host uniquement
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
@@ -81,6 +90,7 @@ resource "aws_security_group" "presentation_ec2" {
   }
 
   egress {
+    // Autoriser tout le trafic sortant (ou restreindre vers l'Internal ALB SG)
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -97,6 +107,7 @@ resource "aws_security_group" "internal_alb" {
   vpc_id      = var.vpc_id
 
   ingress {
+    // Autoriser HTTP depuis les EC2 du tier Presentation uniquement
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
@@ -104,6 +115,7 @@ resource "aws_security_group" "internal_alb" {
   }
 
   egress {
+    // Autoriser tout le trafic sortant (ou restreindre vers les EC2 du tier Logic)
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -120,6 +132,7 @@ resource "aws_security_group" "logic_ec2" {
   vpc_id      = var.vpc_id
 
   ingress {
+    // Autoriser HTTP depuis l'Internal ALB uniquement
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
@@ -127,6 +140,7 @@ resource "aws_security_group" "logic_ec2" {
   }
 
   ingress {
+    // Autoriser SSH depuis le Bastion Host uniquement
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
@@ -134,6 +148,7 @@ resource "aws_security_group" "logic_ec2" {
   }
 
   egress {
+    // Autoriser tout le trafic sortant  vers les RDS SGs
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
@@ -150,6 +165,7 @@ resource "aws_security_group" "rds_main" {
   vpc_id      = var.vpc_id
 
   ingress {
+    // Autoriser MySQL depuis les EC2 du tier Logic uniquement
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
@@ -159,13 +175,16 @@ resource "aws_security_group" "rds_main" {
   tags = { Name = "${var.project_name}-rds-main-sg" }
 }
 
+
 # Replica RDS SG
+# TODO : review logic and see if we need a sg for replica db
 resource "aws_security_group" "rds_replica" {
   name        = "${var.project_name}-rds-replica-sg"
   description = "RDS replica SG"
   vpc_id      = var.vpc_id
 
   ingress {
+    // Autoriser la réplication MySQL depuis le RDS principal uniquement
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
