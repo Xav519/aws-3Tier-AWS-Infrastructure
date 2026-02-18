@@ -43,3 +43,14 @@ module "internal_alb" {
   listener_ports   = [80]
   target_group_name = "logic-tg"
 }
+
+# Bastion Host
+module "bastion" {
+  source            = "./modules/bastion"
+  project_name      = var.project_name
+  ami_id            = "ami-xxxxxxxx" # AMI Amazon Linux par exemple à rajouter
+  instance_type     = "t2.micro"
+  subnet_id         = module.vpc.public_subnets[0]
+  security_group_id = module.sg.bastion_sg_id
+  key_name          = "my-keypair"
+}
