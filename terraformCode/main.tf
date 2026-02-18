@@ -73,3 +73,23 @@ module "frontend_asg" {
   min_size          = 2
   max_size          = 4
 }
+
+# Backend ASG
+module "backend_asg" {
+  source            = "./modules/backend-asg"
+  project_name      = var.project_name
+
+  ami_id            = "ami-xxxxxxxx"
+  instance_type     = "t2.micro"
+
+  subnet_ids        = module.vpc.logic_subnets
+  security_group_id = module.sg.logic_ec2_sg_id
+  target_group_arn  = module.internal_alb.target_group_arn
+
+  key_name          = "my-keypair"
+
+  desired_capacity  = 2
+  min_size          = 2
+  max_size          = 4
+}
+
