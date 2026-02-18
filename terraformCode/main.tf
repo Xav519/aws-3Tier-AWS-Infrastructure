@@ -54,3 +54,22 @@ module "bastion" {
   security_group_id = module.sg.bastion_sg_id
   key_name          = "my-keypair"
 }
+
+# Frontend ASG
+module "frontend_asg" {
+  source            = "./modules/frontend-asg"
+  project_name      = var.project_name
+
+  ami_id            = "ami-xxxxxxxx"
+  instance_type     = "t2.micro"
+
+  subnet_ids        = module.vpc.presentation_subnets
+  security_group_id = module.sg.presentation_ec2_sg_id
+  target_group_arn  = module.external_alb.target_group_arn
+
+  key_name          = "my-keypair"
+
+  desired_capacity  = 2
+  min_size          = 2
+  max_size          = 4
+}
