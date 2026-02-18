@@ -14,6 +14,12 @@ variable "project_name" {
   default     = "my-3tier-project"
 }
 
+variable "environment" {
+  description = "Environment name"
+  type        = string
+  default     = "dev"
+}
+
 
 // --------------------------
 //  VPC and Subnet Variables

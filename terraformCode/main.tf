@@ -20,7 +20,7 @@ module "security_groups" {
 
 # External ALB
 module "external_alb" {
-  source           = "./modules/alb"
+  source           = "../modules/alb"
   project_name     = var.project_name
   alb_name         = "external-alb"
   alb_type         = "external"
@@ -33,7 +33,7 @@ module "external_alb" {
 
 # Internal ALB
 module "internal_alb" {
-  source           = "./modules/alb"
+  source           = "../modules/alb"
   project_name     = var.project_name
   alb_name         = "internal-alb"
   alb_type         = "internal"
@@ -46,7 +46,7 @@ module "internal_alb" {
 
 # Bastion Host
 module "bastion" {
-  source            = "./modules/bastion"
+  source            = "../modules/bastion"
   project_name      = var.project_name
   ami_id            = "ami-xxxxxxxx" # AMI Amazon Linux par exemple à rajouter
   instance_type     = "t2.micro"
@@ -57,7 +57,7 @@ module "bastion" {
 
 # Frontend ASG
 module "frontend_asg" {
-  source            = "./modules/frontend-asg"
+  source            = "../modules/frontend-asg"
   project_name      = var.project_name
 
   ami_id            = "ami-xxxxxxxx"
@@ -76,7 +76,7 @@ module "frontend_asg" {
 
 # Backend ASG
 module "backend_asg" {
-  source            = "./modules/backend-asg"
+  source            = "../modules/backend-asg"
   project_name      = var.project_name
 
   ami_id            = "ami-xxxxxxxx"
@@ -95,7 +95,7 @@ module "backend_asg" {
 
 # RDS Instance
 module "rds" {
-  source = "./modules/rds"
+  source = "../modules/rds"
 
   project_name = "three-tier"
 
@@ -125,15 +125,25 @@ resource "random_password" "db_password" {
 
 # Secrets Manager Module
 module "secrets" {
-  source = "../../modules/secrets"
+  source = "../modules/secrets"
 
   environment = var.environment
-  project     = var.project
-  db_username = var.db_username
-  db_password = random_password.db_password.result
-  db_host     = module.rds.db_address
-  db_port     = module.rds.db_port
-  db_name     = var.db_name
+  project     = var.project.name
 
-  tags = var.tags
+  db_username = "postgres"
+  db_password = "tempPassword"
+
+  # RDS endpoint injected here
+  db_host = module.rds.db_endpoint
+
+  db_port = 5432
+  db_name = "goalsdb"
+
+  recovery_window_in_days = 0
+
+  tags = {
+    Project     = var.project.name
+  }
+
+  depends_on = [module.rds]
 }
