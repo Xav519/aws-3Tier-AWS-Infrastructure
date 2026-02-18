@@ -23,10 +23,10 @@ resource "aws_db_instance" "main" {
   db_subnet_group_name    = aws_db_subnet_group.this.name
   vpc_security_group_ids  = var.vpc_security_group_ids
 
-  multi_az                = var.multi_az
+  multi_az                = var.multi_az // Enable Multi-AZ for high availability if needed
   backup_retention_period = var.backup_retention_period
 
-  skip_final_snapshot     = true
+  skip_final_snapshot     = true // For development, set to false in production to avoid data loss
   publicly_accessible     = false
 
   tags = {
