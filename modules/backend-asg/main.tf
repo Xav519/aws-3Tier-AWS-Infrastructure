@@ -4,6 +4,7 @@ resource "aws_launch_template" "backend" {
   instance_type = var.instance_type
   key_name      = var.key_name
 
+
   vpc_security_group_ids = [var.security_group_id]
 
 // Temporary: create a simple user data script to install Apache and serve a basic webpage, to be replaced.

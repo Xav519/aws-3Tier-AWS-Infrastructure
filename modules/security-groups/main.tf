@@ -9,15 +9,15 @@ resource "aws_security_group" "bastion" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"] // should be restricted to specific IPs
   }
 
   # Outbound SSH to private EC2s
   egress {
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = ["0.0.0.0/0"]
+    from_port       = 0
+    to_port         = 0
+    protocol        = -1
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = { Name = "${var.project_name}-bastion-sg" }
@@ -50,7 +50,7 @@ resource "aws_security_group" "external_alb" {
     // Autoriser tout le trafic sortant (ou restreindre vers les EC2 des tiers Presentation et Logic)
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    protocol    = -1
     cidr_blocks = ["0.0.0.0/0"] 
   }
 
@@ -117,7 +117,7 @@ resource "aws_security_group" "internal_alb" {
     // Autoriser tout le trafic sortant (ou restreindre vers les EC2 du tier Logic)
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    protocol    = -1
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -148,10 +148,10 @@ resource "aws_security_group" "logic_ec2" {
 
   egress {
     // Autoriser tout le trafic sortant  vers les RDS SGs
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    security_groups = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = { Name = "${var.project_name}-logic-sg" }
