@@ -26,7 +26,7 @@ module "external_alb" {
   alb_type         = "external"
   vpc_id           = module.vpc.vpc_id
   subnet_ids       = module.vpc.public_subnets
-  security_groups  = [module.sg.external_alb_sg_id]
+  security_groups  = [module.security_groups.external_alb_sg_id]
   listener_ports   = [80, 443]
   target_group_name = "presentation-tg"
 }
@@ -39,7 +39,7 @@ module "internal_alb" {
   alb_type         = "internal"
   vpc_id           = module.vpc.vpc_id
   subnet_ids       = module.vpc.presentation_subnets
-  security_groups  = [module.sg.internal_alb_sg_id]
+  security_groups  = [module.security_groups.internal_alb_sg_id]
   listener_ports   = [80]
   target_group_name = "logic-tg"
 }
@@ -51,7 +51,7 @@ module "bastion" {
   ami_id            = "ami-xxxxxxxx" # AMI Amazon Linux par exemple à rajouter
   instance_type     = "t2.micro"
   subnet_id         = module.vpc.public_subnets[0]
-  security_group_id = module.sg.bastion_sg_id
+  security_group_id = module.security_groups.bastion_sg_id
   key_name          = "my-keypair"
 }
 
@@ -64,7 +64,7 @@ module "frontend_asg" {
   instance_type     = "t2.micro"
 
   subnet_ids        = module.vpc.presentation_subnets
-  security_group_id = module.sg.presentation_ec2_sg_id
+  security_group_id = module.security_groups.presentation_ec2_sg_id
   target_group_arn  = module.external_alb.target_group_arn
 
   key_name          = "my-keypair"
@@ -83,7 +83,7 @@ module "backend_asg" {
   instance_type     = "t2.micro"
 
   subnet_ids        = module.vpc.logic_subnets
-  security_group_id = module.sg.logic_ec2_sg_id
+  security_group_id = module.security_groups.logic_ec2_sg_id
   target_group_arn  = module.internal_alb.target_group_arn
 
   key_name          = "my-keypair"
@@ -102,7 +102,8 @@ module "rds" {
   db_subnet_ids = module.vpc.database_subnets
 
   vpc_security_group_ids = [
-    module.sg.rds_main_sg_id
+    module.security_groups.rds_main_sg_id,
+    module.security_groups.rds_replica_sg_id
   ]
 
   engine            = "mysql"
@@ -128,7 +129,7 @@ module "secrets" {
   source = "../modules/secrets"
 
   environment = var.environment
-  project     = var.project.name
+  project     = var.project_name
 
   db_username = "postgres"
   db_password = "tempPassword"
@@ -142,7 +143,7 @@ module "secrets" {
   recovery_window_in_days = 0
 
   tags = {
-    Project     = var.project.name
+    Project     = var.project_name
   }
 
   depends_on = [module.rds]
