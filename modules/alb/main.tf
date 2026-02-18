@@ -39,7 +39,7 @@ resource "aws_lb_target_group" "this" {
 
 # Create Listeners for each port
 resource "aws_lb_listener" "this" {
-  for_each = toset(var.listener_ports) // Create a listener for each port in the listener_ports variable to be able to listen on multiple ports (HTTP and HTTPS)
+  for_each = toset([for p in var.listener_ports : tostring(p)]) // Create a listener for each port specified in the variable
 
   load_balancer_arn = aws_lb.this.arn
   port              = each.value

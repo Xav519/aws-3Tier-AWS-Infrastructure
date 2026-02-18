@@ -9,7 +9,7 @@ resource "aws_security_group" "bastion" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Changer ici par valeur plus restrictive pour limiter l'accès SSH à une plage d'adresses IP spécifique
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   # Outbound SSH to private EC2s
@@ -17,8 +17,7 @@ resource "aws_security_group" "bastion" {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    // Utiliser security_groups pour autoriser uniquement le trafic SSH vers les EC2 des tiers Presentation et Logic
-    security_groups = [aws_security_group.presentation_ec2.id, aws_security_group.logic_ec2.id]
+    security_groups = ["0.0.0.0/0"]
   }
 
   tags = { Name = "${var.project_name}-bastion-sg" }
@@ -152,7 +151,7 @@ resource "aws_security_group" "logic_ec2" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    security_groups = [aws_security_group.rds_main.id]
+    security_groups = ["0.0.0.0/0"]
   }
 
   tags = { Name = "${var.project_name}-logic-sg" }

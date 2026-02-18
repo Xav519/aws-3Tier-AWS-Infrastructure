@@ -1,7 +1,7 @@
 # Create Secrets Manager secret for database credentials
 resource "aws_secretsmanager_secret" "db_credentials" {
-  name                    = "${var.environment}-${var.project}-db-credentials"
-  description             = "Database credentials for ${var.project} ${var.environment} environment"
+  name                    = "db-credentials"
+  description             = "Database credentials for this environment"
   recovery_window_in_days = var.recovery_window_in_days
 
   # Force immediate deletion on destroy (0 days recovery window)
@@ -15,7 +15,7 @@ resource "aws_secretsmanager_secret" "db_credentials" {
   tags = merge(
     var.tags,
     {
-      Name = "${var.environment}-${var.project}-db-credentials"
+      Name = "db-credentials"
     }
   )
 }
