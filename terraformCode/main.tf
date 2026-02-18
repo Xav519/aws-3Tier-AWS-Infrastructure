@@ -115,3 +115,25 @@ module "rds" {
   password = "StrongPassword123!"
 }
 
+# Generate random password for database
+resource "random_password" "db_password" {
+  length  = 16
+  special = true
+  # Exclude characters that might cause issues in connection strings
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
+# Secrets Manager Module
+module "secrets" {
+  source = "../../modules/secrets"
+
+  environment = var.environment
+  project     = var.project
+  db_username = var.db_username
+  db_password = random_password.db_password.result
+  db_host     = module.rds.db_address
+  db_port     = module.rds.db_port
+  db_name     = var.db_name
+
+  tags = var.tags
+}
