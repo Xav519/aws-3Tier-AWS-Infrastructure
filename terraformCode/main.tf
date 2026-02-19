@@ -50,26 +50,27 @@ module "internal_alb" {
 module "bastion" {
   source            = "../modules/bastion"
   project_name      = var.project_name
-  ami_id            = "ami-xxxxxxxx" # AMI Amazon Linux par exemple à rajouter
+  # Find a valid ami id for your bastion host: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
+  ami_id            = "ami-05b10e08d247fb927" # AMI Amazon Linux 2023 us-east-1 (x86_64)
   instance_type     = "t2.micro"
   subnet_id         = module.vpc.public_subnets[0]
   security_group_id = module.security_groups.bastion_sg_id
-  key_name          = "my-keypair"
+  key_name          = var.bastion_key_name # add your key pair name here
 }
 
 # Frontend ASG
 module "frontend_asg" {
   source            = "../modules/frontend-asg"
   project_name      = var.project_name
-
-  ami_id            = "ami-xxxxxxxx"
+  # Find a valid ami id for your region: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
+  ami_id            = "ami-05b10e08d247fb927" # AMI Amazon Linux 2023 us-east-1 (x86_64)
   instance_type     = "t2.micro"
 
   subnet_ids        = module.vpc.presentation_subnets
   security_group_id = module.security_groups.presentation_ec2_sg_id
   target_group_arn  = module.external_alb.target_group_arn
 
-  key_name          = "my-keypair"
+  key_name          = var.bastion_key_name
 
   desired_capacity  = 2
   min_size          = 2
@@ -81,14 +82,15 @@ module "backend_asg" {
   source            = "../modules/backend-asg"
   project_name      = var.project_name
 
-  ami_id            = "ami-xxxxxxxx"
+  # Find a valid ami id for your region: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
+  ami_id            = "ami-05b10e08d247fb927" # AMI Amazon Linux 2023 us-east-1 (x86_64)
   instance_type     = "t2.micro"
 
   subnet_ids        = module.vpc.logic_subnets
   security_group_id = module.security_groups.logic_ec2_sg_id
   target_group_arn  = module.internal_alb.target_group_arn
 
-  key_name          = "my-keypair"
+  key_name          = var.bastion_key_name
 
   desired_capacity  = 2
   min_size          = 2
@@ -113,12 +115,13 @@ module "rds" {
   instance_class    = "db.t3.micro"
   allocated_storage = 20
 
+# Temporary: using hardcoded credentials for simplicity, to be replaced with Secrets Manager !!!
   db_name  = "appdb"
   username = "admin"
   password = "StrongPassword123!"
 }
 
-# Generate random password for database
+# Generate random password for database. Implementation of this will be done in the secrets manager module, but we need to generate it here to inject it into the RDS module for now. This is temporary and will be refactored later.
 resource "random_password" "db_password" {
   length  = 16
   special = true
@@ -133,14 +136,15 @@ module "secrets" {
   environment = var.environment
   project     = var.project_name
 
-  db_username = "postgres"
-  db_password = "tempPassword"
+# TODO: replace by results from random_password once implemented in RDS module
+  db_username = "admin"
+  db_password = "StrongPassword123!"
 
   # RDS endpoint injected here
   db_host = module.rds.db_endpoint
 
   db_port = 5432
-  db_name = "goalsdb"
+  db_name = "goalsdbXav519"
 
   recovery_window_in_days = 0
 

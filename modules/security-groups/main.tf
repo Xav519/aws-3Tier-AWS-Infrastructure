@@ -12,19 +12,13 @@ resource "aws_security_group" "bastion" {
     cidr_blocks = ["0.0.0.0/0"] // should be restricted to specific IPs
   }
 
-  # Outbound SSH to private EC2s
   egress {
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = [aws_security_group.presentation_ec2.id, aws_security_group.logic_ec2.id]
-  }
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+}
 
-# Ensure SGs for private EC2s exist before creating bastion SG
-  depends_on = [
-    aws_security_group.presentation_ec2,
-    aws_security_group.logic_ec2
-  ]
 
   tags = { Name = "${var.project_name}-bastion-sg" }
 }
@@ -52,25 +46,13 @@ resource "aws_security_group" "external_alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Egress: Allow ALB to connect only to Presentation EC2s
   egress {
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
-    security_groups = [aws_security_group.presentation_ec2.id]
-  }
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+}
 
-  egress {
-    from_port       = 443
-    to_port         = 443
-    protocol        = "tcp"
-    security_groups = [aws_security_group.presentation_ec2.id]
-  }
-
-# Ensure Presentation SG exists first
-  depends_on = [
-    aws_security_group.presentation_ec2
-  ]
 
   tags = { Name = "${var.project_name}-external-alb-sg" }
 }
@@ -205,12 +187,6 @@ resource "aws_security_group" "rds_main" {
     security_groups = [aws_security_group.logic_ec2.id]
   }
 
-  egress {
-  from_port       = 3306
-  to_port         = 3306
-  protocol        = "tcp"
-  security_groups = [aws_security_group.rds_replica.id]
-}
 
   tags = { Name = "${var.project_name}-rds-main-sg" }
 }

@@ -60,3 +60,13 @@ variable "database_subnets" {
   type        = list(string)
   default     = ["10.0.31.0/24", "10.0.32.0/24"]
 }
+
+// --------------------------
+//  Access Variables
+// --------------------------
+
+variable "bastion_key_name" {
+  description = "Key pair name to use for Bastion host SSH access"
+  type        = string
+  default = "my-keypair"
+}

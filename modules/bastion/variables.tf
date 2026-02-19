@@ -1,30 +1,30 @@
 variable "project_name" {
-  description = "Nom du projet"
+  description = "Project name"
   type        = string
 }
 
 variable "ami_id" {
-  description = "AMI ID pour le Bastion"
+  description = "AMI ID for the Bastion host"
   type        = string
 }
 
 variable "instance_type" {
-  description = "Type d'instance"
+  description = "EC2 instance type"
   type        = string
   default     = "t2.micro"
 }
 
 variable "subnet_id" {
-  description = "Subnet public où déployer le Bastion"
+  description = "Public subnet where the Bastion host will be deployed"
   type        = string
 }
 
 variable "security_group_id" {
-  description = "Security Group du Bastion"
+  description = "Security Group for the Bastion host"
   type        = string
 }
 
 variable "key_name" {
-  description = "Nom de la Key Pair pour SSH"
+  description = "Key pair name used for SSH access"
   type        = string
 }

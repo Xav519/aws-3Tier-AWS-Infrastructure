@@ -1,50 +1,53 @@
 variable "project_name" {
-  description = "Nom du projet"
+  description = "Project name"
   type        = string
 }
 
 variable "ami_id" {
-  description = "AMI ID pour les instances"
+  description = "AMI ID for the EC2 instances"
   type        = string
 }
 
 variable "instance_type" {
-  description = "Type EC2"
+  description = "EC2 instance type"
   type        = string
   default     = "t2.micro"
 }
 
 variable "subnet_ids" {
-  description = "Subnets privés du layer 1"
+  description = "Private subnets for Layer 1"
   type        = list(string)
 }
 
 variable "security_group_id" {
-  description = "Security Group du layer 1"
+  description = "Security Group for Layer 1"
   type        = string
 }
 
 variable "target_group_arn" {
-  description = "Target Group ARN de l'External ALB"
+  description = "Target Group ARN of the External ALB"
   type        = string
 }
 
 variable "key_name" {
-  description = "Key pair (optionnel pour debug via bastion)"
+  description = "Key pair name (used for debugging via bastion host)"
   type        = string
 }
 
 variable "desired_capacity" {
-  type    = number
-  default = 2
+  description = "Desired number of EC2 instances in the Auto Scaling Group"
+  type        = number
+  default     = 2
 }
 
 variable "min_size" {
-  type    = number
-  default = 2
+  description = "Minimum number of EC2 instances in the Auto Scaling Group"
+  type        = number
+  default     = 2
 }
 
 variable "max_size" {
-  type    = number
-  default = 4
+  description = "Maximum number of EC2 instances in the Auto Scaling Group"
+  type        = number
+  default     = 4
 }

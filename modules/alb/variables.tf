@@ -1,41 +1,41 @@
 variable "project_name" {
-  description = "Nom du projet pour préfixer les ressources"
+  description = "Project name used to prefix AWS resources"
   type        = string
 }
 
 variable "alb_name" {
-  description = "Nom de l'ALB"
+  description = "Name of the Application Load Balancer"
   type        = string
 }
 
 variable "alb_type" {
-  description = "Type d'ALB : external ou internal"
+  description = "Type of ALB: external (internet-facing) or internal"
   type        = string
   default     = "external"
 }
 
 variable "vpc_id" {
-  description = "ID du VPC"
+  description = "ID of the VPC where the ALB will be deployed"
   type        = string
 }
 
 variable "subnet_ids" {
-  description = "Liste des subnets où placer l'ALB"
+  description = "List of subnet IDs where the ALB will be placed"
   type        = list(string)
 }
 
 variable "security_groups" {
-  description = "Liste des Security Groups à associer à l'ALB"
+  description = "List of Security Group IDs to associate with the ALB"
   type        = list(string)
 }
 
 variable "listener_ports" {
-  description = "Liste des ports à écouter (HTTP/HTTPS)"
+  description = "List of ports the ALB listeners will use (e.g., HTTP/HTTPS)"
   type        = list(number)
   default     = [80]
 }
 
 variable "target_group_name" {
-  description = "Nom du Target Group que l'ALB va cibler"
+  description = "Name of the Target Group that the ALB will forward traffic to"
   type        = string
 }
