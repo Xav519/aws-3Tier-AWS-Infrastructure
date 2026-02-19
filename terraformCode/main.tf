@@ -1,6 +1,6 @@
 
 module "vpc" {
-  source = "../modules/vpc" 
+  source = "../modules/vpc" # Source of the VPC module, which is located in the parent directory under modules/vpc
 
   project_name        = var.project_name
   vpc_cidr            = var.vpc_cidr
@@ -25,6 +25,7 @@ module "external_alb" {
   alb_name         = "external-alb"
   alb_type         = "external"
   vpc_id           = module.vpc.vpc_id
+  # no need to put ALB in their own subnets, we can share it with the public subnets for simplicity
   subnet_ids       = module.vpc.public_subnets
   security_groups  = [module.security_groups.external_alb_sg_id]
   listener_ports   = [80, 443]
@@ -38,6 +39,7 @@ module "internal_alb" {
   alb_name         = "internal-alb"
   alb_type         = "internal"
   vpc_id           = module.vpc.vpc_id
+  # no need to put ALB in their own subnets, we can share it with the presentation subnets for simplicity
   subnet_ids       = module.vpc.presentation_subnets
   security_groups  = [module.security_groups.internal_alb_sg_id]
   listener_ports   = [80]

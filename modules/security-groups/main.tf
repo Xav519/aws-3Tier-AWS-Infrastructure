@@ -14,11 +14,17 @@ resource "aws_security_group" "bastion" {
 
   # Outbound SSH to private EC2s
   egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = -1
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.presentation_ec2.id, aws_security_group.logic_ec2.id]
   }
+
+# Ensure SGs for private EC2s exist before creating bastion SG
+  depends_on = [
+    aws_security_group.presentation_ec2,
+    aws_security_group.logic_ec2
+  ]
 
   tags = { Name = "${var.project_name}-bastion-sg" }
 }
@@ -46,13 +52,25 @@ resource "aws_security_group" "external_alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # Egress: Allow ALB to connect only to Presentation EC2s
   egress {
-    // Autoriser tout le trafic sortant (ou restreindre vers les EC2 des tiers Presentation et Logic)
-    from_port   = 0
-    to_port     = 0
-    protocol    = -1
-    cidr_blocks = ["0.0.0.0/0"] 
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.presentation_ec2.id]
   }
+
+  egress {
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.presentation_ec2.id]
+  }
+
+# Ensure Presentation SG exists first
+  depends_on = [
+    aws_security_group.presentation_ec2
+  ]
 
   tags = { Name = "${var.project_name}-external-alb-sg" }
 }
@@ -113,6 +131,14 @@ resource "aws_security_group" "internal_alb" {
     security_groups = [aws_security_group.presentation_ec2.id]
   }
 
+  ingress {
+    // Autoriser HTTPS depuis les EC2 du tier Presentation uniquement
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.presentation_ec2.id]
+  }
+
   egress {
     // Autoriser tout le trafic sortant (ou restreindre vers les EC2 du tier Logic)
     from_port   = 0
@@ -134,6 +160,14 @@ resource "aws_security_group" "logic_ec2" {
     // Autoriser HTTP depuis l'Internal ALB uniquement
     from_port       = 80
     to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.internal_alb.id]
+  }
+
+  ingress {
+    // Autoriser HTTPS depuis l'Internal ALB uniquement
+    from_port       = 443
+    to_port         = 443
     protocol        = "tcp"
     security_groups = [aws_security_group.internal_alb.id]
   }
@@ -170,6 +204,13 @@ resource "aws_security_group" "rds_main" {
     protocol        = "tcp"
     security_groups = [aws_security_group.logic_ec2.id]
   }
+
+  egress {
+  from_port       = 3306
+  to_port         = 3306
+  protocol        = "tcp"
+  security_groups = [aws_security_group.rds_replica.id]
+}
 
   tags = { Name = "${var.project_name}-rds-main-sg" }
 }
