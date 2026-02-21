@@ -51,3 +51,28 @@ variable "max_size" {
   type        = number
   default     = 4
 }
+
+// Variables for Docker image and credentials
+
+variable "docker_image" {
+  description = "Full Docker image name (e.g., username/image:tag)"
+  type        = string
+}
+
+variable "dockerhub_username" {
+  description = "Docker Hub username (optional for public images)"
+  type        = string
+  default     = ""
+}
+
+variable "dockerhub_password" {
+  description = "Docker Hub password or access token (optional for public images)"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "backend_internal_url" {
+  description = "Internal URL for backend service"
+  type        = string
+}
