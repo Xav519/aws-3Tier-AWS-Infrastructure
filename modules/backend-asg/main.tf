@@ -7,17 +7,14 @@ resource "aws_launch_template" "backend" {
 
   vpc_security_group_ids = [var.security_group_id]
 
-// Temporary: create a simple user data script to install Apache and serve a basic webpage, to be replaced.
-  user_data = base64encode(<<-EOF
-              #!/bin/bash
-              yum update -y
-              yum install -y httpd
-              systemctl start httpd
-              systemctl enable httpd
-              echo "<h1>Backend Layer 2</h1>" > /var/www/html/index.html
-              EOF
-  )
-
+user_data = base64encode(templatefile("${path.root}/scripts/backend_user_data.sh", {
+    docker_image       = var.docker_image
+    dockerhub_username = var.dockerhub_username
+    dockerhub_password = var.dockerhub_password
+    db_secret_arn      = var.db_secret_arn
+    project            = var.project_name
+  }))
+  
   tag_specifications {
     resource_type = "instance"
 
