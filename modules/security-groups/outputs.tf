@@ -27,8 +27,3 @@ output "rds_main_sg_id" {
   description = "Security Group ID of the primary RDS instance"
   value       = aws_security_group.rds_main.id
 }
-
-output "rds_replica_sg_id" {
-  description = "Security Group ID of the RDS replica instance"
-  value       = aws_security_group.rds_replica.id
-}

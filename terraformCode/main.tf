@@ -120,19 +120,17 @@ module "rds" {
 
   db_subnet_ids = module.vpc.database_subnets
 
-  vpc_security_group_ids = [
-    module.security_groups.rds_main_sg_id,
-    module.security_groups.rds_replica_sg_id
-  ]
+  vpc_security_group_ids = [module.security_groups.rds_main_sg_id]
 
-  engine            = "mysql"
-  engine_version    = "8.0"
+  engine            = "postgres"
+  engine_version    = "15.2"
   instance_class    = "db.t3.micro"
   allocated_storage = 20
 
 # Temporary: using hardcoded credentials for simplicity, to be replaced with Secrets Manager !!!
   db_name  = "appdb"
   username = "admin"
+# password = var.db_password # Best to use the random_password result here
   password = "StrongPassword123!"
 }
 

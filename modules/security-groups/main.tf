@@ -181,31 +181,12 @@ resource "aws_security_group" "rds_main" {
 
   ingress {
     // Autoriser MySQL depuis les EC2 du tier Logic uniquement
-    from_port       = 3306
-    to_port         = 3306
+    from_port       = 5432
+    to_port         = 5432
     protocol        = "tcp"
     security_groups = [aws_security_group.logic_ec2.id]
   }
 
 
   tags = { Name = "${var.project_name}-rds-main-sg" }
-}
-
-
-# Replica RDS SG
-# TODO : review logic and see if we need a sg for replica db
-resource "aws_security_group" "rds_replica" {
-  name        = "${var.project_name}-rds-replica-sg"
-  description = "RDS replica SG"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    // Autoriser la réplication MySQL depuis le RDS principal uniquement
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = [aws_security_group.rds_main.id]
-  }
-
-  tags = { Name = "${var.project_name}-rds-replica-sg" }
 }
