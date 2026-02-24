@@ -4,6 +4,9 @@ resource "aws_launch_template" "backend" {
   instance_type = var.instance_type
   key_name      = var.key_name
 
+iam_instance_profile {
+    name = var.iam_instance_profile
+  }
 
   vpc_security_group_ids = [var.security_group_id]
 

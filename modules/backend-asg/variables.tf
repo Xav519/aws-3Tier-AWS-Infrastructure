@@ -62,6 +62,11 @@ variable "max_size" {
   default     = 4
 }
 
+variable "iam_instance_profile" {
+  description = "IAM instance profile name for backend instances"
+  type        = string
+}
+
 // Variables for Docker image and credentials
 
 variable "docker_image" {

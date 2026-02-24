@@ -58,6 +58,71 @@ module "bastion" {
   key_name          = var.bastion_key_name # add your key pair name here
 }
 
+# RDS Instance
+module "rds" {
+  source = "../modules/rds"
+
+  project_name = "three-tier"
+
+  db_subnet_ids = module.vpc.database_subnets
+
+  vpc_security_group_ids = [module.security_groups.rds_main_sg_id]
+
+  engine            = "postgres"
+  engine_version    = "15.2"
+  instance_class    = "db.t3.micro"
+  allocated_storage = 20
+
+# Temporary: using hardcoded credentials for simplicity, to be replaced with Secrets Manager !!!
+  db_name  = "appdb"
+  username = "admin"
+# password = var.db_password # Best to use the random_password result here
+  password = "StrongPassword123!"
+}
+
+
+# Secrets Manager Module
+module "secrets" {
+  source = "../modules/secrets"
+
+  environment = var.environment
+  project     = var.project_name
+
+# TODO: replace by results from random_password once implemented in RDS module
+  db_username = "admin"
+  db_password = "StrongPassword123!"
+
+  # RDS endpoint injected here
+  db_host = module.rds.db_endpoint
+
+  db_port = 5432
+  db_name = "goalsdb"
+
+  recovery_window_in_days = 0
+
+  tags = {
+    Project     = var.project_name
+  }
+
+  depends_on = [module.rds]
+}
+
+
+# IAM Module (for EC2 instance profile and permissions to access Secrets Manager)
+module "iam" {
+  source        = "../modules/iam"
+  project_name  = var.project_name
+  db_secret_arn = module.secrets.db_secret_arn
+}
+
+# Generate random password for database. Implementation of this will be done in the secrets manager module, but we need to generate it here to inject it into the RDS module for now. This is temporary and will be refactored later.
+resource "random_password" "db_password" {
+  length  = 16
+  special = true
+  # Exclude characters that might cause issues in connection strings
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
 # Frontend ASG
 module "frontend_asg" {
   source            = "../modules/frontend-asg"
@@ -103,6 +168,9 @@ module "backend_asg" {
 
   key_name          = var.bastion_key_name
 
+# Pass the output from the new IAM module
+  iam_instance_profile = module.iam.backend_instance_profile_name
+ 
   # Required by your backend user_data script
   docker_image  = "your-dockerhub-user/backend-repo:latest"
   db_secret_arn = module.secrets.db_secret_arn
@@ -112,58 +180,3 @@ module "backend_asg" {
   max_size          = 4
 }
 
-# RDS Instance
-module "rds" {
-  source = "../modules/rds"
-
-  project_name = "three-tier"
-
-  db_subnet_ids = module.vpc.database_subnets
-
-  vpc_security_group_ids = [module.security_groups.rds_main_sg_id]
-
-  engine            = "postgres"
-  engine_version    = "15.2"
-  instance_class    = "db.t3.micro"
-  allocated_storage = 20
-
-# Temporary: using hardcoded credentials for simplicity, to be replaced with Secrets Manager !!!
-  db_name  = "appdb"
-  username = "admin"
-# password = var.db_password # Best to use the random_password result here
-  password = "StrongPassword123!"
-}
-
-# Generate random password for database. Implementation of this will be done in the secrets manager module, but we need to generate it here to inject it into the RDS module for now. This is temporary and will be refactored later.
-resource "random_password" "db_password" {
-  length  = 16
-  special = true
-  # Exclude characters that might cause issues in connection strings
-  override_special = "!#$%&*()-_=+[]{}<>:?"
-}
-
-# Secrets Manager Module
-module "secrets" {
-  source = "../modules/secrets"
-
-  environment = var.environment
-  project     = var.project_name
-
-# TODO: replace by results from random_password once implemented in RDS module
-  db_username = "admin"
-  db_password = "StrongPassword123!"
-
-  # RDS endpoint injected here
-  db_host = module.rds.db_endpoint
-
-  db_port = 5432
-  db_name = "goalsdbXav519"
-
-  recovery_window_in_days = 0
-
-  tags = {
-    Project     = var.project_name
-  }
-
-  depends_on = [module.rds]
-}
