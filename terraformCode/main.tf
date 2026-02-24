@@ -72,6 +72,13 @@ module "frontend_asg" {
 
   key_name          = var.bastion_key_name
 
+  # This pulls the DNS name from your internal load balancer module
+  backend_internal_url = "http://${module.internal_alb.alb_dns_name}"
+  
+  # Provide the name of your frontend image
+  docker_image         = "your-dockerhub-username/frontend-app:latest" 
+  # ---------------------------
+
   desired_capacity  = 2
   min_size          = 2
   max_size          = 4
@@ -91,6 +98,10 @@ module "backend_asg" {
   target_group_arn  = module.internal_alb.target_group_arn
 
   key_name          = var.bastion_key_name
+
+  # Required by your backend user_data script
+  docker_image  = "your-dockerhub-user/backend-repo:latest"
+  db_secret_arn = module.secrets.db_secret_arn
 
   desired_capacity  = 2
   min_size          = 2
