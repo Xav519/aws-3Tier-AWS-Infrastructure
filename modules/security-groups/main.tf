@@ -155,6 +155,14 @@ resource "aws_security_group" "logic_ec2" {
   }
 
   ingress {
+    description     = "Traffic from Internal ALB"
+    from_port       = 8080  # The port your Docker container uses
+    to_port         = 8080
+    protocol        = "tcp"
+    security_groups = [aws_security_group.internal_alb.id] # Only allow the ALB!
+  }
+  
+  ingress {
     // Autoriser SSH depuis le Bastion Host uniquement
     from_port       = 22
     to_port         = 22

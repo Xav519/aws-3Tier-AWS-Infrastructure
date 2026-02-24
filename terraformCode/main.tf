@@ -29,6 +29,7 @@ module "external_alb" {
   subnet_ids       = module.vpc.public_subnets
   security_groups  = [module.security_groups.external_alb_sg_id]
   listener_ports   = [80, 443]
+  target_port       = 80
   target_group_name = "presentation-tg"
 }
 
@@ -42,7 +43,14 @@ module "internal_alb" {
   # no need to put ALB in their own subnets, we can share it with the presentation subnets for simplicity
   subnet_ids       = module.vpc.presentation_subnets
   security_groups  = [module.security_groups.internal_alb_sg_id]
-  listener_ports   = [80]
+  # LISTEN on 80, but SEND to 8080
+  listener_ports    = [80] 
+  target_port       = 8080 
+  
+  # Your script tests /goals, so let the ALB check that too!
+  health_check_path = "/goals"
+
+
   target_group_name = "logic-tg"
 }
 
@@ -51,7 +59,7 @@ module "bastion" {
   source            = "../modules/bastion"
   project_name      = var.project_name
   # Find a valid ami id for your bastion host: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
-  ami_id            = "ami-05b10e08d247fb927" # AMI Amazon Linux 2023 us-east-1 (x86_64)
+  ami_id            = "ami-0e2c8ccd4e0269736"
   instance_type     = "t2.micro"
   subnet_id         = module.vpc.public_subnets[0]
   security_group_id = module.security_groups.bastion_sg_id
@@ -130,7 +138,7 @@ module "frontend_asg" {
   environment = var.environment
   project_name      = var.project_name
   # Find a valid ami id for your region: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
-  ami_id            = "ami-05b10e08d247fb927" # AMI Amazon Linux 2023 us-east-1 (x86_64)
+  ami_id            = "ami-0e2c8ccd4e0269736" # AMI Amazon Linux 2023 us-east-1 (x86_64)
   instance_type     = "t2.micro"
 
   subnet_ids        = module.vpc.presentation_subnets
@@ -159,7 +167,7 @@ module "backend_asg" {
   environment = var.environment
 
   # Find a valid ami id for your region: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
-  ami_id            = "ami-05b10e08d247fb927" # AMI Amazon Linux 2023 us-east-1 (x86_64)
+  ami_id            = "ami-0e2c8ccd4e0269736" # AMI Amazon Linux 2023 us-east-1 (x86_64)
   instance_type     = "t2.micro"
 
   subnet_ids        = module.vpc.logic_subnets

@@ -32,10 +32,22 @@ variable "security_groups" {
 variable "listener_ports" {
   description = "List of ports the ALB listeners will use (e.g., HTTP/HTTPS)"
   type        = list(number)
-  default     = [80]
+  default     = [80] # Default to standard HTTP
 }
 
 variable "target_group_name" {
   description = "Name of the Target Group that the ALB will forward traffic to"
   type        = string
+}
+
+variable "target_port" {
+  description = "The port the service is actually listening on (Ex: 8080 for Docker)"
+  type        = number
+  default     = 80 # Default to standard HTTP
+}
+
+variable "health_check_path" {
+  description = "The path for the health check"
+  type        = string
+  default     = "/"
 }

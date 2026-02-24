@@ -19,12 +19,12 @@ resource "aws_lb" "this" {
 # Create Target Group
 resource "aws_lb_target_group" "this" {
   name     = "${var.project_name}-${var.target_group_name}"
-  port     = 80
+  port     = var.target_port
   protocol = "HTTP"
   vpc_id   = var.vpc_id
 
   health_check { # Configure health check settings to be able to monitor the health of the targets
-    path                = "/"
+    path                = var.health_check_path
     interval            = 30
     timeout             = 5
     healthy_threshold   = 3
