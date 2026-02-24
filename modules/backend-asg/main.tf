@@ -14,6 +14,7 @@ user_data = base64encode(templatefile("../scripts/backend_user_data.sh", {
     db_secret_arn      = var.db_secret_arn
     project            = var.project_name
     region             = var.region
+    environment        = var.environment
   }))
   
   tag_specifications {

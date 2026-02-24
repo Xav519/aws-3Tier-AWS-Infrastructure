@@ -8,6 +8,11 @@ variable "region" {
   type        = string
 }
 
+variable "environment" {
+  description = "Environment name (e.g., dev, staging, prod)"
+  type        = string
+}
+
 variable "ami_id" {
   description = "AMI ID for backend instances"
   type        = string

@@ -62,6 +62,7 @@ module "bastion" {
 module "frontend_asg" {
   source            = "../modules/frontend-asg"
   region = var.region
+  environment = var.environment
   project_name      = var.project_name
   # Find a valid ami id for your region: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
   ami_id            = "ami-05b10e08d247fb927" # AMI Amazon Linux 2023 us-east-1 (x86_64)
@@ -90,6 +91,7 @@ module "backend_asg" {
   source            = "../modules/backend-asg"
   project_name      = var.project_name
   region = var.region
+  environment = var.environment
 
   # Find a valid ami id for your region: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
   ami_id            = "ami-05b10e08d247fb927" # AMI Amazon Linux 2023 us-east-1 (x86_64)

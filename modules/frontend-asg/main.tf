@@ -13,6 +13,7 @@ user_data = base64encode(templatefile("../scripts/frontend_user_data.sh", {
     backend_internal_url = var.backend_internal_url
     project              = var.project_name
     region             = var.region
+    environment        = var.environment
   }))
 
   tag_specifications {
