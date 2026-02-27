@@ -31,7 +31,7 @@ resource "aws_security_group" "external_alb" {
   vpc_id      = var.vpc_id
 
   ingress {
-    // Autoriser HTTP depuis Internet
+    // Autorize HTTP from Internet
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -39,7 +39,7 @@ resource "aws_security_group" "external_alb" {
   }
 
   ingress {
-    // Autoriser HTTPS depuis Internet
+    // Autorize HTTP from Internet
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -65,7 +65,7 @@ resource "aws_security_group" "presentation_ec2" {
   vpc_id      = var.vpc_id
 
   ingress {
-    // Autoriser HTTP depuis l'External ALB uniquement
+    // Autorize HTTP from the External ALB only
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
@@ -73,7 +73,7 @@ resource "aws_security_group" "presentation_ec2" {
   }
 
   ingress {
-    // Autoriser HTTPS depuis l'External ALB uniquement
+    // Autorize HTTPS from the External ALB only
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
@@ -81,7 +81,7 @@ resource "aws_security_group" "presentation_ec2" {
   }
 
   ingress {
-    // Autoriser SSH depuis le Bastion Host uniquement
+    // Autorize SSH from the Bastion Host only
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
@@ -89,11 +89,11 @@ resource "aws_security_group" "presentation_ec2" {
   }
 
   egress {
-    // Autoriser tout le trafic sortant (ou restreindre vers l'Internal ALB SG)
+    // Autorize all outbound traffic (or restrict to Internal ALB SG)
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"] # ou vers internal ALB SG
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = { Name = "${var.project_name}-presentation-sg" }
@@ -106,7 +106,7 @@ resource "aws_security_group" "internal_alb" {
   vpc_id      = var.vpc_id
 
   ingress {
-    // Autoriser HTTP depuis les EC2 du tier Presentation uniquement
+    // Autorize HTTP from the Presentation EC2s only
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
@@ -114,7 +114,7 @@ resource "aws_security_group" "internal_alb" {
   }
 
   ingress {
-    // Autoriser HTTPS depuis les EC2 du tier Presentation uniquement
+    // Autorize HTTPS from the Presentation EC2s only
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
@@ -122,7 +122,7 @@ resource "aws_security_group" "internal_alb" {
   }
 
   egress {
-    // Autoriser tout le trafic sortant (ou restreindre vers les EC2 du tier Logic)
+    // Autorize all outbound traffic (or restrict to Logic EC2 SG)
     from_port   = 0
     to_port     = 0
     protocol    = -1
@@ -139,7 +139,7 @@ resource "aws_security_group" "logic_ec2" {
   vpc_id      = var.vpc_id
 
   ingress {
-    // Autoriser HTTP depuis l'Internal ALB uniquement
+    // Autorize HTTP from the Internal ALB only
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
@@ -147,7 +147,7 @@ resource "aws_security_group" "logic_ec2" {
   }
 
   ingress {
-    // Autoriser HTTPS depuis l'Internal ALB uniquement
+    // Autorize HTTPS from the Internal ALB only
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
@@ -163,7 +163,7 @@ resource "aws_security_group" "logic_ec2" {
   }
   
   ingress {
-    // Autoriser SSH depuis le Bastion Host uniquement
+    // Autorize SSH from the Bastion Host only
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
@@ -171,7 +171,7 @@ resource "aws_security_group" "logic_ec2" {
   }
 
   egress {
-    // Autoriser tout le trafic sortant  vers les RDS SGs
+    // Autorize all outbound traffic (or restrict to RDS SG)
     from_port   = 0
     to_port     = 0
     protocol    = -1
@@ -188,7 +188,7 @@ resource "aws_security_group" "rds_main" {
   vpc_id      = var.vpc_id
 
   ingress {
-    // Autoriser MySQL depuis les EC2 du tier Logic uniquement
+    // Autorize Postgres from the Logic EC2s only
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
