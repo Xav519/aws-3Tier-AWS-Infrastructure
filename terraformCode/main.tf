@@ -59,7 +59,7 @@ module "bastion" {
   source            = "../modules/bastion"
   project_name      = var.project_name
   # Find a valid ami id for your bastion host: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
-  ami_id            = "ami-0e2c8ccd4e0269736"
+  ami_id            = "ami-080e1f13689e07408"
   instance_type     = "t2.micro"
   subnet_id         = module.vpc.public_subnets[0]
   security_group_id = module.security_groups.bastion_sg_id
@@ -77,7 +77,7 @@ module "rds" {
   vpc_security_group_ids = [module.security_groups.rds_main_sg_id]
 
   engine            = "postgres"
-  engine_version    = "15.2"
+  engine_version    = "15.10"
   instance_class    = "db.t3.micro"
   allocated_storage = 20
 
@@ -138,7 +138,7 @@ module "frontend_asg" {
   environment = var.environment
   project_name      = var.project_name
   # Find a valid ami id for your region: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
-  ami_id            = "ami-0e2c8ccd4e0269736" # AMI Amazon Linux 2023 us-east-1 (x86_64)
+  ami_id            = "ami-080e1f13689e07408"
   instance_type     = "t2.micro"
 
   subnet_ids        = module.vpc.presentation_subnets
@@ -167,7 +167,7 @@ module "backend_asg" {
   environment = var.environment
 
   # Find a valid ami id for your region: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html
-  ami_id            = "ami-0e2c8ccd4e0269736" # AMI Amazon Linux 2023 us-east-1 (x86_64)
+  ami_id            = "ami-080e1f13689e07408"
   instance_type     = "t2.micro"
 
   subnet_ids        = module.vpc.logic_subnets
