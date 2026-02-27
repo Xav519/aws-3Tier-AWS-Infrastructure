@@ -151,7 +151,7 @@ module "frontend_asg" {
   backend_internal_url = "http://${module.internal_alb.alb_dns_name}"
   
   # Provide the name of your frontend image
-  docker_image         = "your-dockerhub-username/frontend-app:latest" 
+  docker_image         = "xav519/goal-tracker-frontend:latest" # replace with your Docker Hub username and image name
   # ---------------------------
 
   desired_capacity  = 2
@@ -180,7 +180,7 @@ module "backend_asg" {
   iam_instance_profile = module.iam.backend_instance_profile_name
  
   # Required by your backend user_data script
-  docker_image  = "your-dockerhub-user/backend-repo:latest"
+  docker_image  = "xav519/goal-tracker-backend:latest" # Replace with your Docker Hub username and image name
   db_secret_arn = module.secrets.db_secret_arn
 
   desired_capacity  = 2
