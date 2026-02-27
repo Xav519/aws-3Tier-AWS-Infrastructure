@@ -126,7 +126,7 @@ log "Starting backend container..."
 docker run -d \
   --name goal-tracker-backend \
   --restart unless-stopped \
-  -p 8080:8080 \
+  -p 80:8080 \
   -e DB_USERNAME="$DB_USERNAME" \
   -e DB_PASSWORD="$DB_PASSWORD" \
   -e DB_HOST="$DB_HOST" \
@@ -152,7 +152,7 @@ fi
 # Test backend health
 log "Testing backend health endpoint..."
 for i in {1..30}; do
-    if curl -s http://localhost:8080/goals > /dev/null 2>&1; then
+    if curl -s http://localhost:80/goals > /dev/null 2>&1; then
         log "✅ Backend is responding to requests"
         break
     fi
@@ -239,7 +239,7 @@ systemctl restart docker
 # Create a healthcheck script
 cat > /usr/local/bin/healthcheck.sh << 'EOF'
 #!/bin/bash
-response=$(curl -s -o /dev/null -w "%%{http_code}" http://localhost:8080/goals)
+response=$(curl -s -o /dev/null -w "%%{http_code}" http://localhost:80/goals)
 if [ "$response" = "200" ]; then
     exit 0
 else
