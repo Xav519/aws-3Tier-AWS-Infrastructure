@@ -68,5 +68,5 @@ variable "database_subnets" {
 variable "bastion_key_name" {
   description = "Key pair name to use for Bastion host SSH access"
   type        = string
-  default = "my-keypair"
+  default = "my-3tier-key"
 }
