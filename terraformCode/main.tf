@@ -83,7 +83,7 @@ module "rds" {
 
 # Temporary: using hardcoded credentials for simplicity, to be replaced with Secrets Manager !!!
   db_name  = "appdb"
-  username = "admin"
+  username = "xav519_db"
 # password = var.db_password # Best to use the random_password result here
   password = "StrongPassword123!"
 }
@@ -97,7 +97,7 @@ module "secrets" {
   project     = var.project_name
 
 # TODO: replace by results from random_password once implemented in RDS module
-  db_username = "admin"
+  db_username = "xav519_db"
   db_password = "StrongPassword123!"
 
   # RDS endpoint injected here
