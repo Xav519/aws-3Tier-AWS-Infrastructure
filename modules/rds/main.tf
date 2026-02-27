@@ -40,6 +40,7 @@ resource "aws_db_instance" "replica" {
   replicate_source_db    = aws_db_instance.main.identifier
   instance_class         = var.instance_class
   publicly_accessible    = false
+  skip_final_snapshot    = true // For development, set to false in production to avoid data loss
 
   vpc_security_group_ids = var.vpc_security_group_ids
 
