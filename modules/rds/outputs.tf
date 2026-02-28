@@ -2,6 +2,11 @@ output "db_endpoint" {
   value = aws_db_instance.main.endpoint
 }
 
+output "db_address" {
+  description = "The hostname of the RDS instance"
+  value       = aws_db_instance.main.address 
+}
+
 output "db_replica_endpoint" {
   value = aws_db_instance.replica.endpoint
 }
