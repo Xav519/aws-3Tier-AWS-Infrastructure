@@ -83,7 +83,7 @@ module "rds" {
   db_name  = "appdb"
   username = "xav519_db"
 # password = var.db_password # Best to use the random_password result here
-  password = "StrongPassword123!"
+  password = random_password.db_password.result # Use the generated password from the random_password resource
 }
 
 
@@ -94,9 +94,8 @@ module "secrets" {
   environment = var.environment
   project     = var.project_name
 
-# TODO: replace by results from random_password once implemented in RDS module
   db_username = "xav519_db"
-  db_password = "StrongPassword123!"
+  db_password = random_password.db_password.result # Pass the generated password to the secrets module
 
   # RDS endpoint injected here
   db_host = module.rds.db_address
@@ -126,7 +125,7 @@ resource "random_password" "db_password" {
   length  = 16
   special = true
   # Exclude characters that might cause issues in connection strings
-  override_special = "!#$%&*()-_=+[]{}<>:?"
+  override_special = "!#$%&*-_=+[]{}?"
 }
 
 # Frontend ASG
