@@ -41,13 +41,13 @@ variable "target_group_name" {
 }
 
 variable "target_port" {
-  description = "The port the service is actually listening on (Ex: 8080 for Docker)"
+  description = "The port the service is actually listening on"
   type        = number
-  default     = 8080 # To revise
+  default     = 3000 # To revise, 3000 or 8080?
 }
 
 variable "health_check_path" {
   description = "The path for the health check"
   type        = string
-  default     = "/" # TOSEE: change to /goals or /health
+  default     = "/health" # TOSEE: change to /goals or /health
 }
