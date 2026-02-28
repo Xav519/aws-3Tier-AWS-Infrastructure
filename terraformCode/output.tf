@@ -4,11 +4,6 @@ output "external_alb_dns_name" {
    value = module.external_alb.alb_dns_name
 }
 
-# If you want the Bastion Host's Public IP
-output "bastion_public_ip" {
-   value = module.bastion.public_ip
-}
-
 # If you want the Internal (Private) DNS
 output "internal_alb_dns_name" {
    value = module.internal_alb.alb_dns_name
