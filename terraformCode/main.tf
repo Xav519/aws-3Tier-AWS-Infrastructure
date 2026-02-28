@@ -104,7 +104,7 @@ module "secrets" {
   db_host = module.rds.db_endpoint
 
   db_port = 5432
-  db_name = "goalsdb"
+  db_name = "appdb"
 
   recovery_window_in_days = 0
 
