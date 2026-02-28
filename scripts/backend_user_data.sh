@@ -126,7 +126,7 @@ log "Starting backend container..."
 docker run -d \
   --name goal-tracker-backend \
   --restart unless-stopped \
-  -p 80:8080 \
+  -p 8080:8080 \
   -e DB_USERNAME="$DB_USERNAME" \
   -e DB_PASSWORD="$DB_PASSWORD" \
   -e DB_HOST="$DB_HOST" \

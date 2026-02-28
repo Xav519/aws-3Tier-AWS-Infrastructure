@@ -149,6 +149,7 @@ module "frontend_asg" {
 
   # This pulls the DNS name from your internal load balancer module
   backend_internal_url = "http://${module.internal_alb.alb_dns_name}"
+  # backend_internal_url = "http://${module.external_alb.alb_dns_name/api*}"
   
   # Provide the name of your frontend image
   docker_image         = "xav519/goal-tracker-frontend:v2" # replace with your Docker Hub username and image name

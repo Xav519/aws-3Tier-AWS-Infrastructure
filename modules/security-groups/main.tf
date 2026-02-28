@@ -72,6 +72,14 @@ resource "aws_security_group" "presentation_ec2" {
     security_groups = [aws_security_group.external_alb.id]
   }
 
+# Autorize Docker container port from the External ALB only
+  ingress {
+  from_port       = 3000
+  to_port         = 3000
+  protocol        = "tcp"
+  security_groups = [aws_security_group.external_alb.id]
+}
+
   ingress {
     // Autorize HTTPS from the External ALB only
     from_port       = 443

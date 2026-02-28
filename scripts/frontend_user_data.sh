@@ -67,7 +67,7 @@ echo "Starting frontend container on port 3000..."
 docker run -d \
   --name goal-tracker-frontend \
   --restart unless-stopped \
-  -p 80:3000 \
+  -p 3000:3000 \
   -e PORT=3000 \
   -e BACKEND_URL="$BACKEND_URL" \
   -e NODE_ENV=production \
