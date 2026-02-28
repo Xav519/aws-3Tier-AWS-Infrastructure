@@ -101,7 +101,7 @@ module "secrets" {
   db_password = "StrongPassword123!"
 
   # RDS endpoint injected here
-  db_host = module.rds.db_endpoint
+  db_host = module.rds.db_address
 
   db_port = 5432
   db_name = "appdb"
