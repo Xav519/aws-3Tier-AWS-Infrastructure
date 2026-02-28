@@ -29,7 +29,7 @@ resource "aws_iam_role_policy" "backend_secrets_policy" {
           "secretsmanager:DescribeSecret"
         ]
         Effect   = "Allow"
-        Resource = var.db_secret_arn
+        Resource = "*" # change to var.db_secret_arn (with your own creds) for prod
       }
     ]
   })
