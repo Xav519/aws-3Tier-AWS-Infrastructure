@@ -207,5 +207,5 @@ resource "aws_security_group_rule" "allow_bastion_to_rds" {
   protocol                 = "tcp"
   # Use the internal resource name, not "module.security_groups"
   security_group_id        = aws_security_group.rds_main.id 
-  source_security_group_id = aws_security_group.bastion_sg.id
+  source_security_group_id = aws_security_group.bastion.id
 }
