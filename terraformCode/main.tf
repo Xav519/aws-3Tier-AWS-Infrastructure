@@ -151,7 +151,7 @@ module "frontend_asg" {
   backend_internal_url = "http://${module.internal_alb.alb_dns_name}"
   
   # Provide the name of your frontend image
-  docker_image         = "xav519/goal-tracker-frontend:v1" # replace with your Docker Hub username and image name
+  docker_image         = "xav519/goal-tracker-frontend:v2" # replace with your Docker Hub username and image name
   # ---------------------------
 
   desired_capacity  = 2
