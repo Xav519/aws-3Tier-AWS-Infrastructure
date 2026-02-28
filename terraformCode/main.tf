@@ -28,8 +28,7 @@ module "external_alb" {
   # no need to put ALB in their own subnets, we can share it with the public subnets for simplicity
   subnet_ids       = module.vpc.public_subnets
   security_groups  = [module.security_groups.external_alb_sg_id]
-  # listener_ports   = [80, 443]
-  target_port       = 3000 # tosee, was 80 before
+  target_port       = 3000
   target_group_name = "presentation-tg"
 }
 
@@ -44,7 +43,6 @@ module "internal_alb" {
   subnet_ids       = module.vpc.presentation_subnets
   security_groups  = [module.security_groups.internal_alb_sg_id]
   # LISTEN on 80, but SEND to 8080
-  # listener_ports    = [80] 
   target_port       = 8080 
   
   # Your script tests /goals, so let the ALB check that too!
@@ -149,7 +147,6 @@ module "frontend_asg" {
 
   # This pulls the DNS name from your internal load balancer module
   backend_internal_url = "http://${module.internal_alb.alb_dns_name}"
-  # backend_internal_url = "http://${module.external_alb.alb_dns_name/api*}"
   
   # Provide the name of your frontend image
   docker_image         = "xav519/goal-tracker-frontend:v4" # replace with your Docker Hub username and image name

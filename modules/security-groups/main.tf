@@ -203,17 +203,14 @@ resource "aws_security_group" "rds_main" {
     security_groups = [aws_security_group.logic_ec2.id]
   }
 
+  egress {
+    description = "No outbound traffic allowed"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = []
+  }
+
 
   tags = { Name = "${var.project_name}-rds-main-sg" }
-}
-
-# TODO remove - for debugging
-resource "aws_security_group_rule" "allow_bastion_to_rds" {
-  type                     = "ingress"
-  from_port                = 5432
-  to_port                  = 5432
-  protocol                 = "tcp"
-  # Use the internal resource name, not "module.security_groups"
-  security_group_id        = aws_security_group.rds_main.id 
-  source_security_group_id = aws_security_group.bastion.id
 }
