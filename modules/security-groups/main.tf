@@ -198,3 +198,12 @@ resource "aws_security_group" "rds_main" {
 
   tags = { Name = "${var.project_name}-rds-main-sg" }
 }
+
+resource "aws_security_group_rule" "allow_bastion_to_rds" {
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  security_group_id        = module.security_groups.rds_main_sg_id # The RDS SG
+  source_security_group_id = module.security_groups.bastion_sg_id  # The Bastion SG
+}
