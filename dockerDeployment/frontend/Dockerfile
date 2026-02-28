@@ -16,7 +16,7 @@ WORKDIR /app
 # Copy only necessary files from build stage
 COPY --from=build /app/server.js ./
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/interface ./interface
+COPY --from=build /app/public ./public
 
 # If you have other necessary directories, add them here
 # COPY --from=build /app/views ./views
