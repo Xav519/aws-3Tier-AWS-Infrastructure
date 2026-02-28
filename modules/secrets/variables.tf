@@ -34,7 +34,7 @@ variable "db_port" {
 variable "db_name" {
   description = "Database name"
   type        = string
-  default     = "goalsdb"
+  default     = "appdb"
 }
 
 variable "recovery_window_in_days" {
