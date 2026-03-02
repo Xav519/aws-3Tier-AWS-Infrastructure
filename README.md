@@ -143,7 +143,7 @@ terraform destroy
 ---
 
 ### 🛡️ Core Philosophy
-> *This project is a testament to building with a **Security-First** mindset. By leveraging Modular Terraform and AWS Native security tools, I’ve demonstrated that "Production-Ready" isn't just about functionality—it's about building resilient, isolated, and immutable infrastructure by design.*
+> *This project is a testament to building with a **Security-First** mindset. By leveraging Modular Terraform and AWS Native security tools, I’ve demonstrated that "Production-Ready" isn't just about functionality - it's about building resilient, isolated, and immutable infrastructure by design.*
 
 
 
