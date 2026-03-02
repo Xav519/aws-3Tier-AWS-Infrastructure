@@ -134,9 +134,9 @@ To build this infrastructure, I leveraged industry-standard documentation and be
 
 * **[AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)** – Guided the high-availability and security-pillar decisions for the 3-tier VPC.
 * **[Terraform AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)** – Referenced for modularizing the Auto Scaling Groups and RDS configurations.
-* **[Piyush Sachdeva: 30 Days of AWS & Terraform](https://www.youtube.com/watch?v=xUtGqC-NXJE&list=PLl4APkPHzsUXcfBSJDExYR-a4fQiZGmMp)**
-* **[Tech With Ajit](https://www.youtube.com/watch?v=yeyr6OBMfcE)** 
-* **[Learn With KASTRO](https://www.youtube.com/watch?v=Oj-Hr_aulKA&t=3189s)**
+* **[Piyush Sachdeva: 30 Days of AWS & Terraform](https://www.youtube.com/watch?v=xUtGqC-NXJE&list=PLl4APkPHzsUXcfBSJDExYR-a4fQiZGmMp)** - A comprehensive series covering end-to-end AWS infrastructure automation using HCL, focusing on modularity, state management, and real-world CI/CD integration.
+* **[Tech With Ajit](https://www.youtube.com/watch?v=yeyr6OBMfcE)** - A practical walkthrough of manually provisioning a high-availability 3-tier stack to understand the underlying networking, routing, and security group dependencies.
+* **[Learn With KASTRO](https://www.youtube.com/watch?v=Oj-Hr_aulKA&t=3189s)** - Focuses on deploying a production-ready 3-tier architecture with custom domain mapping via Route 53 and SSL termination using AWS Certificate Manager.
 
 ---
 
