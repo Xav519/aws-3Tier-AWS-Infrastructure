@@ -12,7 +12,7 @@ output "helpful_commands" {
        http://${module.external_alb.alb_dns_name}
     
     🔐 SSH to Bastion:
-       ssh -i your-key.pem ec2-user@${module.bastion.bastion_public_ip}
+       ssh -i your-key.pem ec2-user@${module.bastion.public_ip}
     
     📦 Push Docker Images to Docker Hub:
        # Login to Docker Hub
