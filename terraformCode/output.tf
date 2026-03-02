@@ -28,7 +28,10 @@ output "helpful_commands" {
        docker build -t xav519/goal-tracker-backend:v1 .
        docker push xav519/goal-tracker-backend:v1
     
-    🗄️ Get Database Credentials:
+    🗄️ Get Database Credentials (on Windows):
+       aws secretsmanager get-secret-value `  --secret-id db-credentials `  --region us-east-1 `  --query SecretString `  --output text | ConvertFrom-Json
+
+    🗄️ Get Database Credentials (on linux):
        aws secretsmanager get-secret-value --secret-id ${module.secrets.db_secret_name} --region ${var.region} --query SecretString --output text | jq .
     
     📊 View Logs:
