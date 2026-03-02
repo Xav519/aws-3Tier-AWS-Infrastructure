@@ -8,7 +8,7 @@ This repository contains the complete Infrastructure as Code (IaC) for a secure,
 ## 🗺️ Architecture Visualization
 
 <p align="center">
-  <img src="./documentation/AWS-3Tier-Architecture.png" alt="AWS 3-Tier Architecture Diagram" width="75%">
+  <img src="./documentation/AWS-3Tier-Architecture.png" alt="AWS 3-Tier Architecture Diagram" width="70%">
 </p>
 
 > *Architecture Overview: High-level design showcasing the traffic flow from the Internet Gateway through the Public ALBs to the isolated Private App and Data tiers.*
@@ -57,13 +57,20 @@ Both the Frontend and Backend are wrapped in **Auto Scaling Groups**. If an inst
 ### I. Application Functionality
 The full stack communication is verified here. The user adds a goal on the UI, which travels through two Load Balancers and is written to the persistent RDS layer.
 
-> **[INSERT SCREENSHOT: Your website browser window showing "Goal Added Successfully" with the ALB URL visible]**
+<p align="center">
+  <img src="./documentation/WebsiteViewObjective.png" alt="Website View Objective" width="60%">
+</p>
 
 ### II. Infrastructure Health & Target Groups
 This view confirms that the AWS health checks are passing across the AZs.
 
 
-> **[INSERT SCREENSHOT: Your AWS Console showing both Target Groups with "Healthy" status]**
+<p align="center">
+  <img src="./documentation/ExternalALB_tg_HealthCheck.png" alt="External tg health check" width="60%">
+</p>
+<p align="center">
+  <img src="./documentation/InternalALB_tg_HealthCheck.png" alt="Internal tg health check" width="60%">
+</p>
 
 ### III. Multi-Vector Secure Administrative Access
 
@@ -74,7 +81,9 @@ Using **Session Manager**, I can access the backend shell directly through the A
 
 > **Verification:** Below shows a Session Manager terminal on the private backend instance, verifying the containerized Go engine is active and processing requests.
 
-> **[INSERT SCREENSHOT: Your browser showing the AWS Session Manager terminal with the command `sudo docker logs goal-tracker-backend | tail -n 10` showing 200/201 status codes]**
+<p align="center">
+  <img src="./documentation/SessionManagerEC2Backend.png" alt="SSM EC2 backend" width="60%">
+</p>
 
 #### **2. SSH ProxyJump via Bastion Host - Network Isolation**
 For standard administrative tasks, I utilized a hardened **Bastion Host** (Jump Box) located in the public subnet. This validates the VPC routing logic, proving that the private backend is reachable only via the authorized internal gateway (in this case, the bastion host).
@@ -82,7 +91,9 @@ For standard administrative tasks, I utilized a hardened **Bastion Host** (Jump 
 
 > **Verification:** This screenshot demonstrates a secure shell "hop" initiated from the Bastion gateway into the private backend (`10.0.22.132`). The terminal logs confirm a successful handshake between the Go API and the RDS PostgreSQL instance.
 
-> **[INSERT SCREENSHOT: Your local terminal showing the `ssh -i "key.pem" -J ...` command and the subsequent Docker logs confirming "Connected to Database"]**
+<p align="center">
+  <img src="./documentation/SSH_BastionHost_EC2Backend.png" alt="Bastion Host SSH EC2 backend" width="60%">
+</p>
 
 
 > *The output in these screenshots is a live "heartbeat" of your app. Every 30 seconds, you see **GET /goals**, which is the **Load Balancer** checking to make sure the server is still running. When you see **POST /goals** or **DELETE**, it means a user actually clicked a button on the website to add or remove a goal. Because all the IP addresses start with **10.0.**, it proves that your website is talking privately and securely within your own cloud network, rather than being exposed directly to the open internet.*
