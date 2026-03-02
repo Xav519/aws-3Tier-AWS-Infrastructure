@@ -5,9 +5,9 @@ This repository contains the complete Infrastructure as Code (IaC) for a secure,
 
 ---
 
-## 🗺️ Architecture Visualization
+| 🗺️ Architecture Visualization |
 | :---: |
-| ![Architecture](YOUR_IMAGE_PATH_HERE) |
+| <img src="./siteDemo.png" alt="siteDemo" width="500"/> |
 | *High-level design: Traffic flow from IGW to Private App/Data tiers.* |
 > *Architecture Overview: High-level design showcasing the traffic flow from the Internet Gateway through the Public ALBs to the isolated Private App and Data tiers.*
 
