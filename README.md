@@ -6,10 +6,8 @@ This repository contains the complete Infrastructure as Code (IaC) for a secure,
 ---
 
 ## 🗺️ Architecture Visualization
-![AWS 3-Tier Architecture Diagram](./documentation/AWS-3Tier-Architecture.png)
+<img src="./documentation/AWS-3Tier-Architecture.png" alt="siteDemo" width="500"/>
 > *Architecture Overview: High-level design showcasing the traffic flow from the Internet Gateway through the Public ALBs to the isolated Private App and Data tiers.*
-
----
 
 ---
 
