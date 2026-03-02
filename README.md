@@ -133,9 +133,9 @@ terraform destroy
 *Cybersecurity Advisor with a passion for cloud, AI and Security*
 
 #### 📜 AWS Certifications
-* **AWS Certified Security – Specialty**
-* **AWS Certified Solutions Architect – Associate**
-* **AWS Certified Cloud Practitioner**
+* AWS Certified Security – Specialty
+* AWS Certified Solutions Architect – Associate
+* AWS Certified Cloud Practitioner
 
 #### 🎓 Education
 * **B.S. in Cybersecurity** | *Expected Graduation: May 2026*
