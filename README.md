@@ -6,9 +6,9 @@ This repository contains the complete Infrastructure as Code (IaC) for a secure,
 ---
 
 ## 🗺️ Architecture Visualization
-<p align="center">
-  <img src="https://your-image-url-here.com/architecture.png" alt="AWS 3-Tier Architecture Diagram" width="60%">
-</p>
+| :---: |
+| ![Architecture](YOUR_IMAGE_PATH_HERE) |
+| *High-level design: Traffic flow from IGW to Private App/Data tiers.* |
 > *Architecture Overview: High-level design showcasing the traffic flow from the Internet Gateway through the Public ALBs to the isolated Private App and Data tiers.*
 
 ---
