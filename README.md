@@ -134,8 +134,8 @@ terraform destroy
 
 | 🎓 Education | 📜 AWS Certifications |
 | :--- | :--- |
-| **B.S. in Cybersecurity** | **AWS Certified Security – Specialty** |
-| *Expected Graduation: May 2026* | **AWS Certified Solutions Architect – Associate** |
+| **B.S. in Cybersecurity** *Expected Graduation: May 2026* | **AWS Certified Security – Specialty** |
+| | **AWS Certified Solutions Architect – Associate** |
 | | **AWS Certified Cloud Practitioner** |
 
 ---
