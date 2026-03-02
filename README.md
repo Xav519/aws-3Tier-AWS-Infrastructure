@@ -126,17 +126,27 @@ terraform destroy
 * **Why Multi-AZ RDS?** To provide high availability. If the primary DB fails, AWS flips the DNS to the standby in seconds with zero manual intervention.
 * **Why SSM Managed Policy?** To allow for terminal access via the AWS Console (Session Manager), reducing the attack surface of Port 22 and eliminating the need to manage SSH keys globally.
 
-# 👨‍💻 Author
+# 👨‍💻 Connect with the Architect
 
-**Xavier Dupuis**\
-At this time, I have:\
-Bachelor in Cybersecurity - May 2026\
-AWS Certified Cloud Practitioner\
-AWS Certified Solutions Architect -- Associate\
-AWS Certified Security -- Specialty\
-[...]
+### **Xavier Dupuis**
+*Cybersecurity Advisor with a passion for cloud, AI and Security*
 
-------------------------------------------------------------------------
+| 🎓 Education | 📜 AWS Certifications |
+| :--- | :--- |
+| **B.S. in Cybersecurity** | **AWS Certified Security – Specialty** |
+| *Expected Graduation: May 2026* | **AWS Certified Solutions Architect – Associate** |
+| | **AWS Certified Cloud Practitioner** |
 
-This project demonstrates secure, scalable, and production-ready AWS
-infrastructure by design.
+---
+
+### 🛡️ Core Philosophy
+> *This project is a testament to building with a **Security-First** mindset. By leveraging Modular Terraform and AWS Native security tools, I’ve demonstrated that "Production-Ready" isn't just about functionality—it's about building resilient, isolated, and immutable infrastructure by design.*
+
+
+
+---
+
+<p align="center">
+  <b>Let's build something secure.</b><br>
+  <a href="https://www.linkedin.com/in/xavierdupuis/">LinkedIn</a>
+</p>
