@@ -126,6 +126,7 @@ terraform destroy
 * **Why Multi-AZ RDS?** To provide high availability. If the primary DB fails, AWS flips the DNS to the standby in seconds with zero manual intervention.
 * **Why SSM Managed Policy?** To allow for terminal access via the AWS Console (Session Manager), reducing the attack surface of Port 22 and eliminating the need to manage SSH keys globally.
 
+
 # 👨‍💻 Connect with the Architect
 
 ### **Xavier Dupuis**
