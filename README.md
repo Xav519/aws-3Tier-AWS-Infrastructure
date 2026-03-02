@@ -3,7 +3,13 @@
 
 This repository contains the complete Infrastructure as Code (IaC) for a secure, scalable, and highly available 3-tier web application. This project is a demonstration of modern Cloud Engineering, focusing on **network isolation**, **immutable infrastructure**, and **automated secret management**. It features a a **Dockerized** stack consisting of a **React** frontend, a **Go** (Golang) REST API, and a **PostgreSQL** RDS database, all orchestrated within a custom-designed AWS VPC across multiple Availability Zones.
 
+---
 
+## 🗺️ Architecture Visualization
+![AWS 3-Tier Architecture Diagram](./documentation/AWS-3Tier-Architecture.png)
+> *Architecture Overview: High-level design showcasing the traffic flow from the Internet Gateway through the Public ALBs to the isolated Private App and Data tiers.*
+
+---
 
 ---
 
@@ -115,7 +121,7 @@ At this time, I have:\
 Bachelor in Cybersecurity - May 2026\
 AWS Certified Cloud Practitioner\
 AWS Certified Solutions Architect -- Associate\
-AWS Certified Security -- Specialty
+AWS Certified Security -- Specialty\
 [...]
 
 ------------------------------------------------------------------------
