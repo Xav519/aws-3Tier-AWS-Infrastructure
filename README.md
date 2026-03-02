@@ -127,6 +127,7 @@ terraform destroy
 * **Why SSM Managed Policy?** To allow for terminal access via the AWS Console (Session Manager), reducing the attack surface of Port 22 and eliminating the need to manage SSH keys globally.
 
 
+
 # 👨‍💻 Connect with the Architect
 
 ### **Xavier Dupuis**
