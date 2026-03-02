@@ -126,6 +126,20 @@ terraform destroy
 * **Why Multi-AZ RDS?** To provide high availability. If the primary DB fails, AWS flips the DNS to the standby in seconds with zero manual intervention.
 * **Why SSM Managed Policy?** To allow for terminal access via the AWS Console (Session Manager), reducing the attack surface of Port 22 and eliminating the need to manage SSH keys globally.
 
+---
+
+## 📚 Reference & Learning Resources
+
+To build this infrastructure, I leveraged industry-standard documentation and best practices for AWS Well-Architected frameworks as well as resources shared by the CloudOps community:
+
+* **[AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)** – Guided the high-availability and security-pillar decisions for the 3-tier VPC.
+* **[Terraform AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)** – Referenced for modularizing the Auto Scaling Groups and RDS configurations.
+* **[Piyush Sachdeva: 30 Days of AWS & Terraform](https://www.youtube.com/watch?v=xUtGqC-NXJE&list=PLl4APkPHzsUXcfBSJDExYR-a4fQiZGmMp)**
+* **[Tech With Ajit](https://www.youtube.com/watch?v=yeyr6OBMfcE)** 
+* **[Learn With KASTRO](https://www.youtube.com/watch?v=Oj-Hr_aulKA&t=3189s)**
+
+---
+
 
 # 👨‍💻 Author
 
