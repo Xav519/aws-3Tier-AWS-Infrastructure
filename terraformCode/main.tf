@@ -79,10 +79,8 @@ module "rds" {
   instance_class    = "db.t3.micro"
   allocated_storage = 20
 
-# Temporary: using hardcoded credentials for simplicity, to be replaced with Secrets Manager !!!
   db_name  = "appdb"
   username = "xav519_db"
-# password = var.db_password # Best to use the random_password result here
   password = random_password.db_password.result # Use the generated password from the random_password resource
 }
 
