@@ -174,7 +174,7 @@ module "backend_asg" {
   key_name          = var.bastion_key_name
 
 # Pass the output from the new IAM module
-  iam_instance_profile = module.iam.backend_instance_profile_name
+  iam_instance_profile = module.iam.ec2_instance_profile_name
  
   # Required by your backend user_data script
   docker_image  = "xav519/goal-tracker-backend:v1" # Replace with your Docker Hub username and image name

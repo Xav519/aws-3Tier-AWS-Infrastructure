@@ -1,6 +1,6 @@
 # --- Backend IAM Role ---
-resource "aws_iam_role" "backend_role" {
-  name = "${var.project_name}-backend-role"
+resource "aws_iam_role" "ec2_role" {
+  name = "${var.project_name}-ec2-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -15,10 +15,9 @@ resource "aws_iam_role" "backend_role" {
 }
 
 # --- Secrets Manager Policy ---
-# Allows the Backend to pull the DB password
-resource "aws_iam_role_policy" "backend_secrets_policy" {
-  name = "${var.project_name}-backend-secrets-policy"
-  role = aws_iam_role.backend_role.id
+resource "aws_iam_role_policy" "secrets_policy" {
+  name = "${var.project_name}-secrets-policy"
+  role = aws_iam_role.ec2_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -29,7 +28,7 @@ resource "aws_iam_role_policy" "backend_secrets_policy" {
           "secretsmanager:DescribeSecret"
         ]
         Effect   = "Allow"
-        Resource = "*" # change to var.db_secret_arn (with your own creds) for prod
+        Resource = var.db_secret_arn
       }
     ]
   })
@@ -37,7 +36,19 @@ resource "aws_iam_role_policy" "backend_secrets_policy" {
 
 # --- Instance Profile ---
 # This is the "container" that you attach to the Launch Template
-resource "aws_iam_instance_profile" "backend_instance_profile" {
-  name = "${var.project_name}-backend-instance-profile"
-  role = aws_iam_role.backend_role.name
+resource "aws_iam_instance_profile" "ec2_instance_profile" {
+  name = "${var.project_name}-instance-profile"
+  role = aws_iam_role.ec2_role.name
+}
+
+# Attach AWS managed policy for SSM (Session Manager)
+resource "aws_iam_role_policy_attachment" "ssm_managed" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+# Attach AWS managed policy for CloudWatch
+resource "aws_iam_role_policy_attachment" "cloudwatch" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
