@@ -11,7 +11,7 @@ This repository contains the complete Infrastructure as Code (IaC) for a secure,
   <img src="./documentation/AWS-3Tier-Architecture.png" alt="AWS 3-Tier Architecture Diagram" width="70%">
 </p>
 
-> *Architecture Overview: High-level design showcasing the traffic flow from the Internet Gateway through the Public ALBs to the isolated Private App and Data tiers.*
+> *Architecture Overview: Multi-AZ VPC design featuring high-availability, automated failover, and strict network isolation for private application and database tiers.*
 ---
 
 ## 🏗️ The Architecture Stack
@@ -58,7 +58,7 @@ Both the Frontend and Backend are wrapped in **Auto Scaling Groups**. If an inst
 The full stack communication is verified here. The user adds a goal on the UI, which travels through two Load Balancers and is written to the persistent RDS layer.
 
 <p align="center">
-  <img src="./documentation/WebsiteViewObjective.png" alt="Website View Objective" width="60%">
+  <img src="./documentation/WebsiteViewObjective.png" alt="Website View Objective" width="70%">
 </p>
 
 ### II. Infrastructure Health & Target Groups
@@ -66,10 +66,10 @@ This view confirms that the AWS health checks are passing across the AZs.
 
 
 <p align="center">
-  <img src="./documentation/ExternalALB_tg_HealthCheck.png" alt="External tg health check" width="60%">
+  <img src="./documentation/ExternalALB_tg_HealthCheck.png" alt="External tg health check" width="70%">
 </p>
 <p align="center">
-  <img src="./documentation/InternalALB_tg_HealthCheck.png" alt="Internal tg health check" width="60%">
+  <img src="./documentation/InternalALB_tg_HealthCheck.png" alt="Internal tg health check" width="70%">
 </p>
 
 ### III. Multi-Vector Secure Administrative Access
@@ -82,7 +82,7 @@ Using **Session Manager**, I can access the backend shell directly through the A
 > **Verification:** Below shows a Session Manager terminal on the private backend instance, verifying the containerized Go engine is active and processing requests.
 
 <p align="center">
-  <img src="./documentation/SessionManagerEC2Backend.png" alt="SSM EC2 backend" width="60%">
+  <img src="./documentation/SessionManagerEC2Backend.png" alt="SSM EC2 backend" width="70%">
 </p>
 
 #### **2. SSH ProxyJump via Bastion Host - Network Isolation**
@@ -92,7 +92,7 @@ For standard administrative tasks, I utilized a hardened **Bastion Host** (Jump 
 > **Verification:** This screenshot demonstrates a secure shell "hop" initiated from the Bastion gateway into the private backend (`10.0.22.132`). The terminal logs confirm a successful handshake between the Go API and the RDS PostgreSQL instance.
 
 <p align="center">
-  <img src="./documentation/SSH_BastionHost_EC2Backend.png" alt="Bastion Host SSH EC2 backend" width="60%">
+  <img src="./documentation/SSH_BastionHost_EC2Backend.png" alt="Bastion Host SSH EC2 backend" width="70%">
 </p>
 
 
@@ -128,7 +128,7 @@ terraform destroy
 
 # 👨‍💻 Author
 
-Xavier Dupuis\
+**Xavier Dupuis**\
 At this time, I have:\
 Bachelor in Cybersecurity - May 2026\
 AWS Certified Cloud Practitioner\
