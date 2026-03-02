@@ -132,11 +132,13 @@ terraform destroy
 ### **Xavier Dupuis**
 *Cybersecurity Advisor with a passion for cloud, AI and Security*
 
-| 🎓 Education | 📜 AWS Certifications |
-| :--- | :--- |
-| **B.S. in Cybersecurity** *Expected Graduation: May 2026* | **AWS Certified Security – Specialty** |
-| | **AWS Certified Solutions Architect – Associate** |
-| | **AWS Certified Cloud Practitioner** |
+#### 📜 AWS Certifications
+* **AWS Certified Security – Specialty**
+* **AWS Certified Solutions Architect – Associate**
+* **AWS Certified Cloud Practitioner**
+
+#### 🎓 Education
+* **B.S. in Cybersecurity** | *Expected Graduation: May 2026*
 
 ---
 
