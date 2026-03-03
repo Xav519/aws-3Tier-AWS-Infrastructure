@@ -28,7 +28,7 @@ This repository contains the complete Infrastructure as Code (IaC) for a secure,
 ## 🛰️ Technical Deep Dive
 
 ### 1. Network Topology (VPC Design)
-The network is partitioned into **4 distinct subnet layers** across multiple Availability Zones (AZs) to ensure 99.9% availability (fault tolerance):
+The network is partitioned into **4 distinct subnet layers** across multiple Availability Zones (AZs) to maximize high availability and fault tolerance:
 * **Public Tier:** Houses the External Application Load Balancer (ALB) and a hardened **Bastion Host**.
 * **Web Tier - Presentation (Private):** Isolated subnet for the React Frontend ASG. Accessible only via the External ALB.
 * **App Tier - Logic (Private):** Isolated subnet for the Go Backend ASG and **Internal ALB**.
