@@ -152,7 +152,7 @@ To build this infrastructure, I leveraged industry-standard documentation and be
 * AWS Certified Cloud Practitioner
 
 #### 🎓 Education
-* **B.S. in Cybersecurity** | *Expected Graduation: May 2026*
+* **B.S. in Cybersecurity**
 
 ---
 
