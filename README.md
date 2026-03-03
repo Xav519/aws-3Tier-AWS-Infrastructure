@@ -1,7 +1,7 @@
 # 🚀 Scalable 3-Tier Web Infrastructure on AWS
 ### High-Availability "Goal Tracker" Deployment on AWS via Terraform
 
-This repository contains the complete Infrastructure as Code (IaC) for a secure, scalable, and highly available 3-tier web application. This project is a demonstration of modern Cloud Engineering, focusing on **network isolation**, **immutable infrastructure**, and **automated secret management**. It features a a **Dockerized** stack consisting of a **React** frontend, a **Go** (Golang) REST API, and a **PostgreSQL** RDS database, all orchestrated within a custom-designed AWS VPC across multiple Availability Zones.
+This repository contains the complete Infrastructure as Code (IaC) for a secure, scalable, and highly available 3-tier web application. This project is a demonstration of modern Cloud Engineering, focusing on **network isolation**, **immutable infrastructure**, and **automated secret management**. It features a **Dockerized** stack consisting of a **React** frontend, a **Go** (Golang) REST API, and a **PostgreSQL** RDS database, all orchestrated within a custom-designed AWS VPC across multiple Availability Zones.
 
 ---
 
